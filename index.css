@@ -1,0 +1,428 @@
+:root {
+  --background-color: #121212;
+  --surface-color: #1e1e1e;
+  --primary-color: #bb86fc;
+  --primary-variant-color: #3700b3;
+  --secondary-color: #03dac6;
+  --error-color: #cf6679;
+  --info-color: #29b6f6;
+  --on-background-color: #e0e0e0;
+  --on-surface-color: #ffffff;
+
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --border-radius: 8px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--on-background-color);
+  line-height: 1.6;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--on-surface-color);
+  margin-bottom: 0.5rem;
+}
+
+header p {
+  font-size: 1.1rem;
+  color: #b0b0b0;
+}
+
+.content-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 992px) {
+  .content-wrapper {
+    grid-template-columns: 1fr 1.2fr;
+  }
+}
+
+.form-section, .output-section {
+  background-color: var(--surface-color);
+  padding: 1.5rem 2rem;
+  border-radius: var(--border-radius);
+  border: 1px solid #333;
+}
+
+.form-section h2, .output-section h2, .output-container h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #444;
+  padding-bottom: 0.75rem;
+}
+
+.output-container h3 {
+    margin-top: 0;
+}
+
+#prompt-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+#prompt-form label {
+  font-weight: 600;
+  margin-bottom: -0.75rem;
+}
+
+#prompt-form input, 
+#prompt-form textarea,
+#prompt-form select {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #2c2c2c;
+  border: 1px solid #444;
+  border-radius: 6px;
+  color: var(--on-background-color);
+  font-family: inherit;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#prompt-form input:focus, 
+#prompt-form textarea:focus,
+#prompt-form select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(187, 134, 252, 0.25);
+}
+
+#prompt-form textarea {
+  resize: vertical;
+}
+
+.grid-inputs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+#prompt-form button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #121212;
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#prompt-form button:hover:not(:disabled) {
+  background-color: #a966fa;
+}
+
+#prompt-form button:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+}
+
+.output-container {
+  min-height: 400px;
+  background-color: #121212;
+  border-radius: 6px;
+  font-size: 1rem;
+  overflow-x: auto;
+}
+
+.output-container.empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    padding: 1rem;
+}
+
+.prompt-container {
+    margin-bottom: 1.5rem;
+}
+
+.prompt-actions-header {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.save-button, .copy-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #333;
+    border: 1px solid #555;
+    color: var(--on-background-color);
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: opacity 0.2s, background-color 0.2s;
+}
+
+.save-button:hover:not(:disabled), .copy-button:hover {
+    background: #444;
+}
+
+.save-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    color: var(--secondary-color);
+}
+
+.copy-button.copied {
+    color: var(--secondary-color);
+    background-color: #2f4f4f;
+}
+
+.save-button svg, .copy-button svg {
+    display: block;
+}
+
+
+.output-container pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    margin: 0;
+    padding: 1rem;
+    background-color: #2c2c2c;
+    border-radius: var(--border-radius);
+    line-height: 1.5;
+    font-family: "SF Mono", "Fira Code", monospace;
+    font-size: 0.9rem;
+}
+
+.rest-of-output {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    padding: 1rem;
+}
+
+.error {
+  color: var(--error-color);
+  background-color: rgba(207, 102, 121, 0.1);
+  padding: 1rem;
+  border-radius: 6px;
+  border: 1px solid var(--error-color);
+}
+
+.loader {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #fff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+.loader-large {
+  width: 48px;
+  height: 48px;
+  border: 5px solid var(--primary-color);
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  margin: 2rem;
+}
+
+@keyframes rotation {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.button-secondary {
+  background-color: transparent;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.button-secondary:hover:not(:disabled) {
+  background-color: var(--primary-color);
+  color: #121212;
+}
+
+.button-danger {
+  background-color: transparent;
+  color: var(--error-color);
+  border: 1px solid var(--error-color);
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.button-danger:hover:not(:disabled) {
+  background-color: var(--error-color);
+  color: #121212;
+}
+
+.button-info {
+  background-color: transparent;
+  color: var(--info-color);
+  border: 1px solid var(--info-color);
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.button-info:hover:not(:disabled) {
+  background-color: var(--info-color);
+  color: #121212;
+}
+
+/* Saved Prompts Section */
+.saved-prompts-section {
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+}
+
+.saved-prompts-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #444;
+  padding-bottom: 0.75rem;
+}
+
+.saved-prompts-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0;
+  border-bottom: none;
+  padding-bottom: 0;
+  text-align: left;
+}
+
+.saved-prompts-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.empty-saved {
+    text-align: center;
+    color: #888;
+    background-color: var(--surface-color);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    border: 1px solid #333;
+}
+
+.saved-prompts-list {
+  list-style-type: none;
+  display: grid;
+  gap: 1rem;
+}
+
+.saved-prompt-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--surface-color);
+  padding: 1rem 1.5rem;
+  border-radius: var(--border-radius);
+  border: 1px solid #333;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.saved-prompt-item:hover {
+    border-color: #555;
+}
+
+.saved-prompt-item.editing {
+    background-color: #2a2a2a;
+    border-color: var(--primary-color);
+}
+
+.prompt-title {
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-right: 1rem;
+}
+
+.prompt-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.edit-form {
+    display: flex;
+    flex-grow: 1;
+    gap: 1rem;
+    align-items: center;
+}
+
+.edit-goal-input {
+    flex-grow: 1;
+    padding: 0.5rem 0.75rem;
+    background-color: #2c2c2c;
+    border: 1px solid #444;
+    border-radius: 6px;
+    color: var(--on-background-color);
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.edit-goal-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(187, 134, 252, 0.2);
+}
+
+.edit-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
